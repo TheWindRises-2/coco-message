@@ -1,6 +1,6 @@
 {
   "name": "coco-message",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "轻量的js信息提示插件",
   "main": "coco-message.min.js",
   "scripts": {

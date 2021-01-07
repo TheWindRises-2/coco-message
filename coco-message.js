@@ -1,11 +1,5 @@
 "use strict";
 
-function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 !function (global, factory) {
@@ -36,18 +30,9 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     } else if (_typeof(children) == "object" && children.tagName) {
       el.appendChild(children);
     } else if (children) {
-      var _iterator = _createForOfIteratorHelper(children),
-          _step;
-
-      try {
-        for (_iterator.s(); !(_step = _iterator.n()).done;) {
-          var child = _step.value;
-          el.appendChild(child);
-        }
-      } catch (err) {
-        _iterator.e(err);
-      } finally {
-        _iterator.f();
+      for (var i = 0; i < children.length; i++) {
+        var child = children[i];
+        el.appendChild(child);
       }
     }
 
@@ -138,31 +123,26 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
   };
 
   function initConfig(obj, type) {
-    var args = Object.assign({}, initArgs);
+    var args = {};
 
-    var _iterator2 = _createForOfIteratorHelper(obj),
-        _step2;
+    for (var key in initArgs) {
+      args[key] = initArgs[key];
+    }
 
-    try {
-      for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
-        var it = _step2.value;
+    for (var i = 0; i < obj.length; i++) {
+      var it = obj[i];
 
-        if (it !== undefined) {
-          if (typeof it == "string" || _typeof(it) == "object") {
-            args.msg = it;
-          } else if (typeof it == "boolean") {
-            args.showClose = it;
-          } else if (typeof it == "function") {
-            args.onClose = it;
-          } else if (typeof it == "number") {
-            args.duration = it;
-          }
+      if (it !== undefined) {
+        if (typeof it == "string" || _typeof(it) == "object") {
+          args.msg = it;
+        } else if (typeof it == "boolean") {
+          args.showClose = it;
+        } else if (typeof it == "function") {
+          args.onClose = it;
+        } else if (typeof it == "number") {
+          args.duration = it;
         }
       }
-    } catch (err) {
-      _iterator2.e(err);
-    } finally {
-      _iterator2.f();
     }
 
     args.type = type;
@@ -187,13 +167,13 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     var el = c({
       className: "coco-msg-wrapper"
     }, [c({
-      className: "coco-msg coco-msg-fade-in ".concat(type)
+      className: "coco-msg coco-msg-fade-in " + type
     }, [c({
       className: "coco-msg-icon"
     }, iconObj[type]), c({
       className: "coco-msg-content"
     }, msg), c({
-      className: "coco-msg-wait ".concat(closable ? "coco-msg-pointer" : ""),
+      className: "coco-msg-wait " + (closable ? "coco-msg-pointer" : ""),
       _click: function _click() {
         if (closable) {
           closeMsg(el, onClose);
@@ -204,7 +184,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
     if (anm) {
       css(anm, {
-        animation: "coco-msg_".concat(type, " ").concat(duration, "ms linear")
+        animation: "coco-msg_" + type + " " + duration + "ms linear"
       });
 
       if ("onanimationend" in window) {
@@ -263,21 +243,10 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
       if (!el) return;
       var has = false;
 
-      var _iterator3 = _createForOfIteratorHelper(msgWrapper.children),
-          _step3;
-
-      try {
-        for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
-          var it = _step3.value;
-
-          if (it === el) {
-            has = true;
-          }
+      for (var i = 0; i < msgWrapper.children.length; i++) {
+        if (msgWrapper.children[i] === el) {
+          has = true;
         }
-      } catch (err) {
-        _iterator3.e(err);
-      } finally {
-        _iterator3.f();
       }
 
       has && removeChild(el);
@@ -304,18 +273,9 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
   }
 
   function _destroyAll() {
-    var _iterator4 = _createForOfIteratorHelper(msgWrapper.children),
-        _step4;
-
-    try {
-      for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
-        var it = _step4.value;
-        closeMsg(it);
-      }
-    } catch (err) {
-      _iterator4.e(err);
-    } finally {
-      _iterator4.f();
+    for (var i = 0; i < msgWrapper.children.length; i++) {
+      var element = msgWrapper.children[i];
+      closeMsg(element);
     }
   }
 
@@ -331,7 +291,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
       var _css = doc.createElement('style');
 
-      var cssStr = "\n[class|=coco],[class|=coco]::after,[class|=coco]::before{box-sizing:border-box;outline:0}.coco-msg-progress{width:13px;height:13px}.coco-msg__circle{stroke-width:2;stroke-linecap:square;fill:none;transform:rotate(-90deg);transform-origin:center}.coco-msg-stage:hover .coco-msg__circle{-webkit-animation-play-state:paused!important;animation-play-state:paused!important}.coco-msg__background{stroke-width:2;fill:none}.coco-msg-stage{position:fixed;top:20px;left:50%;width:auto;transform:translate(-50%,0);z-index:3000}.coco-msg-wrapper{position:relative;left:50%;transform:translate3d(-50%,0,0);transition:height .3s ease,padding .3s ease;padding:6px 0;will-change:transform,opacity}.coco-msg{padding:15px 21px;border-radius:3px;position:relative;left:50%;transform:translate3d(-50%,0,0);display:flex;align-items:center}.coco-msg-content,.coco-msg-icon,.coco-msg-wait{display:inline-block}.coco-msg-icon{position:relative;width:13px;height:13px;border-radius:100%;display:flex;justify-content:center;align-items:center}.coco-msg-icon svg{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:11px;height:11px}.coco-msg-wait{width:20px;height:20px;position:relative;fill:#4eb127}.coco-msg-wait svg{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)}.coco-msg-close{width:14px;height:14px}.coco-msg-content{margin:0 10px;min-width:240px;text-align:left;font-size:14px;font-weight:500;font-family:-apple-system,Microsoft Yahei,sans-serif;text-shadow:0 0 1px rgba(0,0,0,.01)}.coco-msg.info{color:#0fafad;background-color:#e7fdfc;box-shadow:0 0 2px 0 rgba(0,1,1,.01),0 0 0 1px #c0faf9}.coco-msg.info .coco-msg-icon{background-color:#0fafad}.coco-msg.success{color:#4ebb23;background-color:#f3ffe8;box-shadow:0 0 2px 0 rgba(0,1,0,.01),0 0 0 1px #d9f8bb}.coco-msg.success .coco-msg-icon{background-color:#4ebb23}.coco-msg.warning{color:#f1b306;background-color:#fff9eb;box-shadow:0 0 2px 0 rgba(1,1,0,.01),0 0 0 1px #fcf2cd}.coco-msg.warning .coco-msg-icon{background-color:#f1b306}.coco-msg.error{color:#f34b51;background-color:#fff7f7;box-shadow:0 0 2px 0 rgba(1,0,0,.01),0 0 0 1px #ffe3e3}.coco-msg.error .coco-msg-icon{background-color:#f34b51}.coco-msg.loading{color:#0fafad;background-color:#e7fdfc;box-shadow:0 0 2px 0 rgba(0,1,1,.01),0 0 0 1px #c2faf9}.coco-msg_loading{flex-shrink:0;width:20px;height:20px;position:relative}.coco-msg-circular{-webkit-animation:coco-msg-rotate 2s linear infinite both;animation:coco-msg-rotate 2s linear infinite both;transform-origin:center center;height:18px!important;width:18px!important}.coco-msg-path{stroke-dasharray:1,200;stroke-dashoffset:0;stroke:#0fafad;-webkit-animation:coco-msg-dash 1.5s ease-in-out infinite;animation:coco-msg-dash 1.5s ease-in-out infinite;stroke-linecap:round}@-webkit-keyframes coco-msg-rotate{100%{transform:translate(-50%,-50%) rotate(360deg)}}@keyframes coco-msg-rotate{100%{transform:translate(-50%,-50%) rotate(360deg)}}@-webkit-keyframes coco-msg-dash{0%{stroke-dasharray:1,200;stroke-dashoffset:0}50%{stroke-dasharray:89,200;stroke-dashoffset:-35px}100%{stroke-dasharray:89,200;stroke-dashoffset:-124px}}@keyframes coco-msg-dash{0%{stroke-dasharray:1,200;stroke-dashoffset:0}50%{stroke-dasharray:89,200;stroke-dashoffset:-35px}100%{stroke-dasharray:89,200;stroke-dashoffset:-124px}}.coco-msg.info .coco-msg-wait{fill:#0fafad}.coco-msg.success .coco-msg-wait{fill:#4ebb23}.coco-msg.warning .coco-msg-wait{fill:#f1b306}.coco-msg.error .coco-msg-wait{fill:#f34b51}.coco-msg.loading .coco-msg-wait{fill:#0fafad}.coco-msg-pointer{cursor:pointer}@-webkit-keyframes coco-msg_info{0%{stroke:#0fafad}to{stroke:#0fafad;stroke-dasharray:0 100}}@keyframes coco-msg_info{0%{stroke:#0fafad}to{stroke:#0fafad;stroke-dasharray:0 100}}@-webkit-keyframes coco-msg_success{0%{stroke:#4eb127}to{stroke:#4eb127;stroke-dasharray:0 100}}@keyframes coco-msg_success{0%{stroke:#4eb127}to{stroke:#4eb127;stroke-dasharray:0 100}}@-webkit-keyframes coco-msg_warning{0%{stroke:#fcbc0b}to{stroke:#fcbc0b;stroke-dasharray:0 100}}@keyframes coco-msg_warning{0%{stroke:#fcbc0b}to{stroke:#fcbc0b;stroke-dasharray:0 100}}@-webkit-keyframes coco-msg_error{0%{stroke:#eb262d}to{stroke:#eb262d;stroke-dasharray:0 100}}@keyframes coco-msg_error{0%{stroke:#eb262d}to{stroke:#eb262d;stroke-dasharray:0 100}}.coco-msg-fade-in{-webkit-animation:coco-msg-fade .2s ease-out both;animation:coco-msg-fade .2s ease-out both}.coco-msg-fade-out{animation:coco-msg-fade .3s linear reverse both}@-webkit-keyframes coco-msg-fade{0%{opacity:0;transform:translate3d(-50%,-80%,0)}to{opacity:1;transform:translate3d(-50%,0,0)}}@keyframes coco-msg-fade{0%{opacity:0;transform:translate3d(-50%,-80%,0)}to{opacity:1;transform:translate3d(-50%,0,0)}}\n        ";
+      var cssStr = "\n\n[class|=coco],[class|=coco]::after,[class|=coco]::before{box-sizing:border-box;outline:0}.coco-msg-progress{width:13px;height:13px}.coco-msg__circle{stroke-width:2;stroke-linecap:square;fill:none;transform:rotate(-90deg);transform-origin:center}.coco-msg-stage:hover .coco-msg__circle{-webkit-animation-play-state:paused!important;animation-play-state:paused!important}.coco-msg__background{stroke-width:2;fill:none}.coco-msg-stage{position:fixed;top:20px;left:50%;width:auto;transform:translate(-50%,0);z-index:3000}.coco-msg-wrapper{position:relative;left:50%;transform:translate(-50%,0);transform:translate3d(-50%,0,0);transition:height .3s ease,padding .3s ease;padding:6px 0;will-change:transform,opacity}.coco-msg{padding:15px 21px;border-radius:3px;position:relative;left:50%;transform:translate(-50%,0);transform:translate3d(-50%,0,0);display:flex;align-items:center}.coco-msg-content,.coco-msg-icon,.coco-msg-wait{display:inline-block}.coco-msg-icon{position:relative;width:13px;height:13px;border-radius:100%;display:flex;justify-content:center;align-items:center}.coco-msg-icon svg{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:11px;height:11px}.coco-msg-wait{width:20px;height:20px;position:relative;fill:#4eb127}.coco-msg-wait svg{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)}.coco-msg-close{width:14px;height:14px}.coco-msg-content{margin:0 10px;min-width:240px;text-align:left;font-size:14px;font-weight:500;font-family:-apple-system,Microsoft Yahei,sans-serif;text-shadow:0 0 1px rgba(0,0,0,.01)}.coco-msg.info{color:#0fafad;background-color:#e7fdfc;box-shadow:0 0 2px 0 rgba(0,1,1,.01),0 0 0 1px #c0faf9}.coco-msg.info .coco-msg-icon{background-color:#0fafad}.coco-msg.success{color:#4ebb23;background-color:#f3ffe8;box-shadow:0 0 2px 0 rgba(0,1,0,.01),0 0 0 1px #d9f8bb}.coco-msg.success .coco-msg-icon{background-color:#4ebb23}.coco-msg.warning{color:#f1b306;background-color:#fff9eb;box-shadow:0 0 2px 0 rgba(1,1,0,.01),0 0 0 1px #fcf2cd}.coco-msg.warning .coco-msg-icon{background-color:#f1b306}.coco-msg.error{color:#f34b51;background-color:#fff7f7;box-shadow:0 0 2px 0 rgba(1,0,0,.01),0 0 0 1px #ffe3e3}.coco-msg.error .coco-msg-icon{background-color:#f34b51}.coco-msg.loading{color:#0fafad;background-color:#e7fdfc;box-shadow:0 0 2px 0 rgba(0,1,1,.01),0 0 0 1px #c2faf9}.coco-msg_loading{flex-shrink:0;width:20px;height:20px;position:relative}.coco-msg-circular{-webkit-animation:coco-msg-rotate 2s linear infinite both;animation:coco-msg-rotate 2s linear infinite both;transform-origin:center center;height:18px!important;width:18px!important}.coco-msg-path{stroke-dasharray:1,200;stroke-dashoffset:0;stroke:#0fafad;-webkit-animation:coco-msg-dash 1.5s ease-in-out infinite;animation:coco-msg-dash 1.5s ease-in-out infinite;stroke-linecap:round}@-webkit-keyframes coco-msg-rotate{100%{transform:translate(-50%,-50%) rotate(360deg)}}@keyframes coco-msg-rotate{100%{transform:translate(-50%,-50%) rotate(360deg)}}@-webkit-keyframes coco-msg-dash{0%{stroke-dasharray:1,200;stroke-dashoffset:0}50%{stroke-dasharray:89,200;stroke-dashoffset:-35px}100%{stroke-dasharray:89,200;stroke-dashoffset:-124px}}@keyframes coco-msg-dash{0%{stroke-dasharray:1,200;stroke-dashoffset:0}50%{stroke-dasharray:89,200;stroke-dashoffset:-35px}100%{stroke-dasharray:89,200;stroke-dashoffset:-124px}}.coco-msg.info .coco-msg-wait{fill:#0fafad}.coco-msg.success .coco-msg-wait{fill:#4ebb23}.coco-msg.warning .coco-msg-wait{fill:#f1b306}.coco-msg.error .coco-msg-wait{fill:#f34b51}.coco-msg.loading .coco-msg-wait{fill:#0fafad}.coco-msg-pointer{cursor:pointer}@-webkit-keyframes coco-msg_info{0%{stroke:#0fafad}to{stroke:#0fafad;stroke-dasharray:0 100}}@keyframes coco-msg_info{0%{stroke:#0fafad}to{stroke:#0fafad;stroke-dasharray:0 100}}@-webkit-keyframes coco-msg_success{0%{stroke:#4eb127}to{stroke:#4eb127;stroke-dasharray:0 100}}@keyframes coco-msg_success{0%{stroke:#4eb127}to{stroke:#4eb127;stroke-dasharray:0 100}}@-webkit-keyframes coco-msg_warning{0%{stroke:#fcbc0b}to{stroke:#fcbc0b;stroke-dasharray:0 100}}@keyframes coco-msg_warning{0%{stroke:#fcbc0b}to{stroke:#fcbc0b;stroke-dasharray:0 100}}@-webkit-keyframes coco-msg_error{0%{stroke:#eb262d}to{stroke:#eb262d;stroke-dasharray:0 100}}@keyframes coco-msg_error{0%{stroke:#eb262d}to{stroke:#eb262d;stroke-dasharray:0 100}}.coco-msg-fade-in{-webkit-animation:coco-msg-fade .2s ease-out both;animation:coco-msg-fade .2s ease-out both}.coco-msg-fade-out{animation:coco-msg-fade .3s linear reverse both}@-webkit-keyframes coco-msg-fade{0%{opacity:0;transform:translate(-50%,0);transform:translate3d(-50%,-80%,0)}to{opacity:1;transform:translate(-50%,0);transform:translate3d(-50%,0,0)}}@keyframes coco-msg-fade{0%{opacity:0;transform:translate(-50%,0);transform:translate3d(-50%,-80%,0)}to{opacity:1;transform:translate(-50%,0);transform:translate3d(-50%,0,0)}}\n        ";
       _css.innerHTML = cssStr;
 
       if (head.children.length) {
