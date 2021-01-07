@@ -9,13 +9,13 @@ coco-message 是一个简单实用的javascript信息提示插件， 兼容主�
 install via npm:
 
 ```
-npm install coco-message -S
+cnpm install coco-message -S
 ```
 
 ```
 import cocoMessage from 'coco-message'
   
-cocoMessage('hello world')
+cocoMessage.info('hello world')
 ```
 
 ```
