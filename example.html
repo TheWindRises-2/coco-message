@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Coco Message Example</title>
+    <style>
+      body {
+        margin: 0;
+      }
+
+      #test {
+        margin: 0 auto;
+        width: 1000px;
+        height: 180vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      #test button{
+        margin: 0 20px;
+      }
+      .coco-btn {
+        font-size: 14px;
+        text-decoration: none;
+        padding: 6px 20px;
+        white-space: nowrap;
+        border-radius: 5px;
+        font-weight: 500;
+        display: inline-block;
+        cursor: pointer;
+        border: 0;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        line-height: normal;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+      .coco-btn.cancel {
+        margin-right: 10px;
+        color: #525456;
+        background-color: transparent;
+        font-weight: 500;
+        transition: all 0.06s ease-out;
+      }
+
+      .coco-btn,
+      .coco-btn span,
+      .coco-loading {
+        position: relative;
+      }
+      .coco-btn.ok {
+        background-color: #0077ff;
+        color: #fefefe;
+      }
+      .coco-btn.ok::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: inherit;
+        transition: all 0.12s ease-out;
+        background-color: transparent;
+      }
+      .coco-btn.ok:hover::before {
+        background-color: rgba(255, 255, 255, 0.08);
+      }
+      .coco-btn.ok:active::before {
+        transition: all 80ms ease-out;
+        background-color: rgba(0, 0, 0, 0.2);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="test">
+      <button class="coco-btn ok" onclick="example(0)">信息</button>
+      <button class="coco-btn ok" onclick="example(1)">成功</button>
+      <button class="coco-btn ok" onclick="example(2)">警告</button>
+      <button class="coco-btn ok" onclick="example(3)">错误</button>
+      <button class="coco-btn ok" onclick="example(4)">加载</button>
+      <button class="coco-btn ok" onclick="example(5)">closeAll</button>
+    </div>
+    <script src="./coco-message.js"></script>
+    <script>
+      cocoMessage.config({
+        duration: 10000
+      })
+      function example(n) {
+        switch (n) {
+          case 0:
+            cocoMessage.info(3000, "请先登录！", () => {
+              console.log("close");
+            });
+            break;
+          case 1:
+            let div1 = document.createElement('div');
+            div1.innerText = '修改成功！'
+            cocoMessage.success(div1);
+            break;
+          case 2:
+            cocoMessage.warning("需要手动关闭", 0);
+            break;
+          case 3:
+            cocoMessage.error("修改失败！", 3000);
+            break;
+          case 4:
+            let closeMsg = cocoMessage.loading(true);
+            setTimeout(() => {
+              closeMsg();
+            }, 4000);
+            break;
+          case 5:
+            cocoMessage.destroyAll();
+            break;
+          default:
+            break;
+        }
+      }
+    </script>
+  </body>
+</html>
