@@ -6,7 +6,7 @@ coco-message 是一个简单实用的javascript信息提示插件， 兼容主�
  
 ## Usage
 
-install via npm:
+install via cnpm:
 
 ```
 cnpm install coco-message -S
