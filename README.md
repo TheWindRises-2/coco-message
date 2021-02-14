@@ -3,6 +3,7 @@
 
 coco-message 是一个简单实用的javascript信息提示插件， 兼容主流浏览器，兼容至ie9 (ie没有svg动画)
 
+1.0.5以后改为白色背景
  
 ## Usage
 
