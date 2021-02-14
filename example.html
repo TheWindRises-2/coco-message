@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Coco Message Example</title>
+    <title>Document</title>
     <style>
       body {
         margin: 0;
@@ -17,7 +17,7 @@
         justify-content: center;
         align-items: center;
       }
-      #test button {
+      #test button{
         margin: 0 20px;
       }
       .coco-btn {
@@ -74,68 +74,53 @@
         transition: all 80ms ease-out;
         background-color: rgba(0, 0, 0, 0.2);
       }
+      body{
+        background-color: #f5f9fb;
+      }
     </style>
   </head>
   <body>
     <div id="test">
-      <button class="coco-btn ok">信息</button>
-      <button class="coco-btn ok">成功</button>
-      <button class="coco-btn ok">警告</button>
-      <button class="coco-btn ok">错误</button>
-      <button class="coco-btn ok">加载</button>
-      <button class="coco-btn ok">closeAll</button>
+      <button class="coco-btn ok" onclick="changeText(0)">信息</button>
+      <button class="coco-btn ok" onclick="changeText(1)">成功</button>
+      <button class="coco-btn ok" onclick="changeText(2)">警告</button>
+      <button class="coco-btn ok" onclick="changeText(3)">错误</button>
+      <button class="coco-btn ok" onclick="changeText(4)">加载</button>
+      <button class="coco-btn ok" onclick="changeText(5)">closeAll</button>
     </div>
-    <script src="./coco-message.js"></script>
+    
+    <script src="./coco-message.min.js"></script>
     <script>
-      "use strict";
-
       cocoMessage.config({
-        duration: 10000,
-      });
-      var btns = document.body.querySelectorAll(".coco-btn.ok");
- 
-      for (var i = 0; i < btns.length; i++) {
-        addClickEvent(btns[i], i);
-      }
-      function addClickEvent(btn, i) {
-        btn.addEventListener("click", function () {
-          example(i);
-        });
-      }
-
-      function example(n) {
-        switch (n) {
+        duration: 10000
+      })
+      function changeText(num) {
+        switch (num) {
           case 0:
-            cocoMessage.info(3000, "请先登录！", function () {
+            cocoMessage.info(1500, "请先登录！", () => {
               console.log("close");
             });
             break;
-
           case 1:
-            var div1 = document.createElement("div");
-            div1.innerText = "修改成功！";
+            let div1 = document.createElement('div');
+            div1.innerText = '修改成功！'
             cocoMessage.success(div1);
             break;
-
           case 2:
             cocoMessage.warning("需要手动关闭", 0);
             break;
-
           case 3:
             cocoMessage.error("修改失败！", 3000);
             break;
-
           case 4:
-            var closeMsg = cocoMessage.loading(true);
-            setTimeout(function () {
+            let closeMsg = cocoMessage.loading(true);
+            setTimeout(() => {
               closeMsg();
             }, 4000);
             break;
-
           case 5:
             cocoMessage.destroyAll();
             break;
-
           default:
             break;
         }
