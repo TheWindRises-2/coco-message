@@ -96,18 +96,23 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
     duration: 2000,
     showClose: false
   };
-  var cocoMessage = {
+
+  function cocoMessage() {
+    return initConfig(arguments, "info");
+  }
+
+  var methods = {
     info: function info() {
-      initConfig(arguments, "info");
+      return initConfig(arguments, "info");
     },
     success: function success() {
-      initConfig(arguments, "success");
+      return initConfig(arguments, "success");
     },
     warning: function warning() {
-      initConfig(arguments, "warning");
+      return initConfig(arguments, "warning");
     },
     error: function error() {
-      initConfig(arguments, "error");
+      return initConfig(arguments, "error");
     },
     loading: function loading() {
       return initConfig(arguments, "loading");
@@ -126,6 +131,10 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
     }
   };
 
+  for (var it in methods) {
+    cocoMessage[it] = methods[it];
+  }
+
   function initConfig(obj, type) {
     var args = {};
 
@@ -134,17 +143,17 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
     }
 
     for (var i = 0; i < obj.length; i++) {
-      var it = obj[i];
+      var _it = obj[i];
 
-      if (it !== undefined) {
-        if (typeof it == "string" || _typeof(it) == "object") {
-          args.msg = it;
-        } else if (typeof it == "boolean") {
-          args.showClose = it;
-        } else if (typeof it == "function") {
-          args.onClose = it;
-        } else if (typeof it == "number") {
-          args.duration = it;
+      if (_it !== undefined) {
+        if (typeof _it == "string" || _typeof(_it) == "object") {
+          args.msg = _it;
+        } else if (typeof _it == "boolean") {
+          args.showClose = _it;
+        } else if (typeof _it == "function") {
+          args.onClose = _it;
+        } else if (typeof _it == "number") {
+          args.duration = _it;
         }
       }
     }
@@ -163,7 +172,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
     var iconObj = getIconObj();
 
     if (type == "loading") {
-      msg = msg === "" ? "正在加载，请稍后" : msg;
+      msg = msg === "" ? "正在加载..." : msg;
       closable = showClose;
       duration = 0;
     }
@@ -219,12 +228,9 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
     setTimeout(function () {
       removeClass(el.children[0], "coco-msg-fade-in");
     }, 300);
-
-    if (type == "loading") {
-      return function () {
-        closeMsg(el, onClose);
-      };
-    }
+    return function () {
+      closeMsg(el, onClose);
+    };
   }
 
   function getMsgRight(showClose) {
@@ -283,9 +289,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
     }
   }
 
-  window.addEventListener("DOMContentLoaded", function () {
-    insertCssInHead();
-  });
+  insertCssInHead();
 
   function insertCssInHead() {
     var doc = document;
