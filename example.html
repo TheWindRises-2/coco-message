@@ -12,12 +12,12 @@
       #test {
         margin: 0 auto;
         width: 1000px;
-        height: 180vh;
+        height: 120vh;
         display: flex;
         justify-content: center;
         align-items: center;
       }
-      #test button{
+      #test button {
         margin: 0 20px;
       }
       .coco-btn {
@@ -74,12 +74,28 @@
         transition: all 80ms ease-out;
         background-color: rgba(0, 0, 0, 0.2);
       }
-      body{
-        background-color: #f5f9fb;
+      body {
+        background-color: #fff;
+      }
+      .dark body {
+        background-color: #111;
+      }
+      .github {
+        font-weight: 600;
+        text-align: center;
+        margin-top: 100px;
       }
     </style>
   </head>
   <body>
+    <div class="github">
+      <a
+        href="http://github.com/TheWindRises-2/coco-message"
+        target="_blank"
+        rel="noopener noreferrer"
+        >github</a
+      >
+    </div>
     <div id="test">
       <button class="coco-btn ok" onclick="changeText(0)">信息</button>
       <button class="coco-btn ok" onclick="changeText(1)">成功</button>
@@ -87,30 +103,55 @@
       <button class="coco-btn ok" onclick="changeText(3)">错误</button>
       <button class="coco-btn ok" onclick="changeText(4)">加载</button>
       <button class="coco-btn ok" onclick="changeText(5)">closeAll</button>
+      <button class="coco-btn ok" onclick="changeMode()" id="mode">dark</button>
     </div>
-    
+
     <script src="./coco-message.min.js"></script>
     <script>
       cocoMessage.config({
-        duration: 10000
-      })
+        duration: 10000,
+      });
+      let theme = localStorage.theme || "light";
+      let mode = document.querySelector("#mode");
+      if (
+        theme === "dark" ||
+        (!("theme" in localStorage) &&
+          window.matchMedia("(prefers-color-scheme: dark)").matches)
+      ) {
+        document.documentElement.classList.add("dark");
+      } else {
+        document.documentElement.classList.remove("dark");
+      }
+      mode.innerHTML = theme;
+      function changeMode() {
+        if (theme === "light") {
+          theme = "dark";
+          localStorage.theme = "dark";
+          document.documentElement.classList.add("dark");
+        } else {
+          theme = "light";
+          localStorage.theme = "light";
+          document.documentElement.classList.remove("dark");
+        }
+        mode.innerHTML = theme;
+      }
       function changeText(num) {
         switch (num) {
           case 0:
-            cocoMessage.info(1500, "请先登录！", () => {
+            cocoMessage.info(1500, "这是一条消息", () => {
               console.log("close");
             });
             break;
           case 1:
-            let div1 = document.createElement('div');
-            div1.innerText = '修改成功！'
+            let div1 = document.createElement("div");
+            div1.innerText = "这是一条成功的消息";
             cocoMessage.success(div1);
             break;
           case 2:
-            cocoMessage.warning("需要手动关闭", 0);
+            cocoMessage.warning("需要手动关闭消息", 0);
             break;
           case 3:
-            cocoMessage.error("修改失败！", 3000);
+            cocoMessage.error("这是一条错误的消息", 3000);
             break;
           case 4:
             let closeMsg = cocoMessage.loading(true);
